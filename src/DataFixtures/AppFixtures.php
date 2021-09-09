@@ -29,7 +29,6 @@ class AppFixtures extends Fixture
             ->setProfil($profil)
             ->setPassword($this->passwordEncoder->encodePassword($user, 'admin'));
 
-
         $manager->persist($profil);
         $manager->persist($user);
 
