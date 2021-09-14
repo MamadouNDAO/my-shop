@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use PHPUnit\Util\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -30,6 +31,34 @@ class ProfilController extends AbstractController
         
         $reponse = $this->profilManager->ajoutProfil($data);
         
+        return new JsonResponse($reponse);
+    }
+
+    /**
+     * @Rest\Post("/api/updateProfil/{id}")
+     */
+    public function updateProfil(Request $request, $id)
+    {
+        $data = $request->request->all();
+        $reponse = $this->profilManager->updateProfil($data, $id);
+        return new JsonResponse($reponse);
+    }
+
+    /**
+     * @Rest\Get("/api/listeProfil")
+     */
+    public function listeProfil()
+    {
+        $reponse = $this->profilManager->listProfil();
+        return new JsonResponse($reponse);
+    }
+
+    /**
+     * @Rest\Delete("/api/deleteProfil/{id}")
+     */
+    public function deleteProfil($id)
+    {
+        $reponse = $this->profilManager->deleteProfil($id);
         return new JsonResponse($reponse);
     }
 }
