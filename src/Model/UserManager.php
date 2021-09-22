@@ -60,4 +60,24 @@ class UserManager
         $this->em->flush();
         return array("status" => true, "code" => 201, "message" => "Utilisateur créé avec succès");
     }
+
+    public function modifierUser($id, $data)
+    {
+        $user = $this->em->getRepository(User::class)->find($id);
+
+        if(!$user){
+            return array("status" => false, "code" => 500, "message" => "id utilisateur invalide");
+        }
+        $prenom = isset($data['prenom']) ? $data['prenom'] : $user->getPrenom();
+        $nom = isset($data['nom']) ? $data['nom'] : $user->getNom();
+        $telephone = isset($data['telephone']) ? $data['telephone'] : $user->getTelephone();
+        $email = isset($data['email']) ? $data['email'] : $user->getEmail();
+        $user->setPrenom($prenom);
+        $user->setNom($nom);
+        $user->setTelephone($telephone);
+        $user->setEmail($email);
+        $this->em->flush();
+         
+        return array("status" => true, "code" => 201, "message" => "utilisateur modifié avec succès");
+    }
 }

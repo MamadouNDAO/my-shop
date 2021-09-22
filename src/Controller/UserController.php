@@ -24,4 +24,14 @@ class UserController extends AbstractController
         $data = $request->request->all();
         return new JsonResponse($this->userManager->ajoutUser($data));
     }
+
+    /**
+     * @Rest\Post("/api/updateUser/{id}")
+     */
+    public function updateUser(Request $request, $id)
+    {
+        $data = $request->request->all();
+        return new JsonResponse(($this->userManager->modifierUser($id, $data)));
+
+    }
 }
