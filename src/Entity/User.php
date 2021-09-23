@@ -64,6 +64,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $profil;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isArchived;
+
+    public function __construct()
+    {
+        $this->isArchived = 0;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -194,6 +204,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfil(?Profil $profil): self
     {
         $this->profil = $profil;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): self
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

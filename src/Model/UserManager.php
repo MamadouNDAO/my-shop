@@ -80,4 +80,41 @@ class UserManager
          
         return array("status" => true, "code" => 201, "message" => "utilisateur modifié avec succès");
     }
+
+    public function detailUser($id)
+    {
+        $user = $this->em->getRepository(User::class)->find($id);
+        if(!$user){
+            return array("status" => false, "code" => 500, "message" => "Id utilisateur invalide");
+        }
+        $data['id'] = $user->getId();
+        $data['prenom'] = $user->getPrenom();
+        $data['nom'] = $user->getNom();
+        $data['email'] = $user->getEmail();
+        $data['telephone'] = $user->getTelephone();
+
+        return array("status" => true, "code" => 200, "data" => $data);
+    }
+
+    public function deleteUser($id)
+    {
+        $user = $this->em->getRepository(User::class)->find($id);
+        if(!$user){
+            return array("status" => false, "code" => 500, "message" => "Id utilisateur invalide");
+        }
+        $user->setIsArchived(1);
+        $this->em->flush();
+        return array("status" => true, "code" => 201, "message" => "Utilisateur supprimé avec succès");
+    }
+
+    public function listUser($isArchived, $page, $limit)
+    {
+        $users = $this->em->getRepository(User::class)->findListUsers($isArchived, $page, $limit);
+        
+        if(empty($users)){
+            return array("status" => true, "code" => 202, "message" => "Contenu vide");
+        }
+        $total = sizeof($this->em->getRepository(User::class)->findListUsers($isArchived, null, null));
+        return array("status" => true, "code" => 200, "total" => $total, "data" => $users);
+    }
 }
