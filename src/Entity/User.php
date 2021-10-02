@@ -69,6 +69,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isArchived;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Boutique::class)
+     */
+    private $boutique;
+
     public function __construct()
     {
         $this->isArchived = 0;
@@ -216,6 +221,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsArchived(?bool $isArchived): self
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    public function getBoutique(): ?Boutique
+    {
+        return $this->boutique;
+    }
+
+    public function setBoutique(?Boutique $boutique): self
+    {
+        $this->boutique = $boutique;
 
         return $this;
     }
