@@ -117,4 +117,5 @@ class UserManager
         $total = sizeof($this->em->getRepository(User::class)->findListUsers($isArchived, null, null));
         return array("status" => true, "code" => 200, "total" => $total, "data" => $users);
     }
+    
 }
