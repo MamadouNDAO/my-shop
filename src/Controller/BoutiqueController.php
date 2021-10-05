@@ -41,6 +41,23 @@ class BoutiqueController extends AbstractController
     {
         $page = $request->query->get('page', 1);
         $limit = $request->query->get('limit', 10);
-        return new JsonResponse($this->boutiqueManager->listBoutique($page, $limit));
+        $isArchived = $request->query->get('isArchived', null);
+        if($isArchived == 'true'){
+            $isArchived = true;
+        }else if($isArchived == 'false'){
+            $isArchived = false;
+        }else{
+            $isArchived = null;
+        }
+        return new JsonResponse($this->boutiqueManager->listBoutique($page, $limit, $isArchived));
+    }
+
+    /**
+     * @Rest\Post("/api/updateBoutique/{id}")
+     */
+    public function updateBoutique($id, Request $request)
+    {
+        $data = $request->request->all();
+        return new JsonResponse($this->boutiqueManager->updateBoutique($id, $data));
     }
 }

@@ -48,14 +48,17 @@ class BoutiqueRepository extends ServiceEntityRepository
     }
     */
 
-    public function findBoutique($page=null, $limit=null)
+    public function findBoutique($page=null, $limit=null, $isArchived = null)
     {
-       $qb =  $this->createQueryBuilder('b')
-       ->select('b.id, b.nom');
+        $qb =  $this->createQueryBuilder('b')
+       ->select('b.id, b.nom, b.isArchived');
        if($page && $limit)
        {
         $qb->setFirstResult(($page - 1) * $limit)
         ->setMaxResults($limit);
+       }
+       if($isArchived !== null){
+           $qb->where('b.isArchived = :value')->setParameter('value', $isArchived);
        }
        return $qb->getQuery()->getResult();
     }

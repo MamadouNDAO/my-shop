@@ -46,17 +46,32 @@ class BoutiqueManager
         return array("status" => true, "code" => 201, "message" => "Utilisateurs ajoutés à la boutique avec succès");
     }
 
-    public function listBoutique($page, $limit)
+    public function listBoutique($page, $limit, $isArchived)
     {
-        $boutiques = $this->em->getRepository(Boutique::class)->findBoutique($page, $limit);
+        $boutiques = $this->em->getRepository(Boutique::class)->findBoutique($page, $limit, $isArchived);
 
         if(empty($boutiques))
         {
             return array("status" =>true, "code" =>202, "message" => "contenu vide");
 
         }
-        $total = sizeof($this->em->getRepository(Boutique::class)->findBoutique());
+        $total = sizeof($this->em->getRepository(Boutique::class)->findBoutique(null, null, $isArchived));
         return array("status" =>true, "code" =>200, "total" => $total, "data" =>$boutiques);
+    }
+
+    public function updateBoutique($id, $data)
+    {
+        $boutique = $this->em->getRepository(Boutique::class)->find($id);
+        if(!$boutique){
+            return array("status" => false, "code" => 500, "message" => "Id boutique invalide");
+        }
+        if(!isset($data['nom']) || $data['nom'] == ''){
+            return array("status" => false, "code" => 500, "message" => "Nom de la boutique est obligatoire");
+        }
+
+        $boutique->setNom($data['nom']);
+        $this->em->flush();
+        return array("status" => true, "code" => 201, "message" => "Boutique modifiée avec succès");
     }
 
 }
