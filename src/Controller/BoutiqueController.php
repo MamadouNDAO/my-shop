@@ -33,4 +33,14 @@ class BoutiqueController extends AbstractController
         $data = $request->request->all();
         return new JsonResponse($this->boutiqueManager->linkerBoutique($id, $data));
     }
+
+    /**
+     * @Rest\Get("/api/listBoutiques")
+     */
+    public function listBoutique(Request $request)
+    {
+        $page = $request->query->get('page', 1);
+        $limit = $request->query->get('limit', 10);
+        return new JsonResponse($this->boutiqueManager->listBoutique($page, $limit));
+    }
 }

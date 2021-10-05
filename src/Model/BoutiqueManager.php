@@ -45,4 +45,18 @@ class BoutiqueManager
 
         return array("status" => true, "code" => 201, "message" => "Utilisateurs ajoutés à la boutique avec succès");
     }
+
+    public function listBoutique($page, $limit)
+    {
+        $boutiques = $this->em->getRepository(Boutique::class)->findBoutique($page, $limit);
+
+        if(empty($boutiques))
+        {
+            return array("status" =>true, "code" =>202, "message" => "contenu vide");
+
+        }
+        $total = sizeof($this->em->getRepository(Boutique::class)->findBoutique());
+        return array("status" =>true, "code" =>200, "total" => $total, "data" =>$boutiques);
+    }
+
 }

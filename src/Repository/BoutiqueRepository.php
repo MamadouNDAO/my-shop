@@ -47,4 +47,16 @@ class BoutiqueRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findBoutique($page=null, $limit=null)
+    {
+       $qb =  $this->createQueryBuilder('b')
+       ->select('b.id, b.nom');
+       if($page && $limit)
+       {
+        $qb->setFirstResult(($page - 1) * $limit)
+        ->setMaxResults($limit);
+       }
+       return $qb->getQuery()->getResult();
+    }
 }
