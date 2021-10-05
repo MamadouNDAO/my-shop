@@ -22,6 +22,16 @@ class Boutique
      */
     private $nom;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isArchived;
+
+    public function __construct()
+    {
+        $this->isArchived = 0;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +45,18 @@ class Boutique
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): self
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }
